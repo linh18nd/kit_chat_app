@@ -6,6 +6,12 @@
              the Flutter engine draws its first frame -->
         <item name="android:windowBackground">@drawable/launch_background</item>
     </style>
+    
+<string name="facebook_app_id">914202459634612</string>
+<string name="fb_login_protocol_scheme">fb1234</string>
+<string name="facebook_client_token">5a27df4ade7762e79fe7598eab740f7a</string>
+
+
     <!-- Theme applied to the Android Window as soon as the process has started.
          This theme determines the color of the Android Window while your
          Flutter UI initializes, as well as behind your Flutter UI while its
