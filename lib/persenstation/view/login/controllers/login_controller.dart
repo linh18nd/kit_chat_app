@@ -22,7 +22,7 @@ class LoginController extends GetxController with AppController {
     _authencationUseCase.logInWithSocial(type).then(
       (value) {
         if (_auth.currentUser != null) {
-          Get.offAllNamed(Path.home);
+          Get.offAllNamed(Path.main);
         } else {
           Get.snackbar("Error", "Login failed");
         }

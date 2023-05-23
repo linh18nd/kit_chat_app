@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
+  static const Color black = Color(0xFF000000);
+
   /// Màu chủ đạo - trắng
   static const Color primaryColor = Colors.white;
 
   /// Màu phụ - xanh dương
   static const Color accentColor = Colors.blue;
+
+  ///Màu chữ
+  static const Color textColor = Color(0xFF212121);
 
   /// Màu nền
   static const Color background = Color(0xFFECEFF1);
@@ -30,4 +35,8 @@ class AppColors {
 
   /// Màu chữ trong hộp chat của người nhận
   static const Color receiverTextColor = Color(0xFF212121);
+
+  static const Color bianca = Color(0xFFF7F7F7);
+
+  static const Color greyChateau = Color(0xFF9FA3A7);
 }

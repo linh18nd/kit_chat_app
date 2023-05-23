@@ -1,9 +1,18 @@
 import 'package:get/get.dart';
+import 'package:kit_chat_app/persenstation/app_controller/app_controller.dart';
 
-class MainCotroller extends GetxController {
-  final _selectedIndex = 0.obs;
-  int get selectedIndex => _selectedIndex.value;
-  void changeIndex(int index) => _selectedIndex.value = index;
-  //kiểm tra đăng nhập hay để hiển thị trong home hay login
-  final _isLogin = false.obs;
+class MainController extends GetxController with AppController {
+  RxInt rxCurrentNavIndex = 0.obs;
+
+  Future<void> onChangedNav(int index) async {
+    rxCurrentNavIndex.value = index;
+
+    if (index == 0) {}
+    if (index == 1) {}
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+  }
 }
