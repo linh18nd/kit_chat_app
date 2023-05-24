@@ -1,3 +1,5 @@
+import 'package:kit_chat_app/domain/models/user_model.dart';
+
 enum AuthencationType { facebook, google }
 
 abstract class AuthencationRepository {
@@ -5,5 +7,5 @@ abstract class AuthencationRepository {
 
   Future<void> logOut();
 
-  Future<String> getUser();
+  Future<UserModel> getUser();
 }

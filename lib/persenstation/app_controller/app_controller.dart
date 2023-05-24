@@ -9,5 +9,5 @@ enum LoadedType {
 mixin AppController {
   BuildContext? context;
 
-  Rx<LoadedType> loadedType = LoadedType.start.obs;
+  Rx<LoadedType> loadedType = LoadedType.end.obs;
 }

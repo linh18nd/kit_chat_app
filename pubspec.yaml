@@ -23,6 +23,7 @@ dependencies:
   uuid: ^3.0.7
   get: ^4.6.5
   flutter_screenutil: ^5.8.1
+  intl: ^0.18.1
   # firebase
   firebase_core: ^2.13.0
   firebase_auth: ^4.6.1

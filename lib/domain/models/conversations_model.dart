@@ -1,34 +1,40 @@
-import 'package:kit_chat_app/domain/models/message_model.dart';
-import 'package:kit_chat_app/domain/models/participants_model.dart';
+import 'package:kit_chat_app/utils/convert/datetime_convert.dart';
+import 'package:uuid/uuid.dart';
 
 class ConversationsModel {
   final String conversationId;
   final DateTime createdAt;
-  final List<Participants> participants;
-  final List<Message> messages;
+  final List<String?> participants;
+  final DateTime lastMessageAt;
+  final String? lastMessage;
 
   ConversationsModel({
-    required this.conversationId,
-    required this.createdAt,
+    String? conversationId,
+    DateTime? createdAt,
+    this.lastMessage = 'Cuộc trò chuyện mới',
     required this.participants,
-    required this.messages,
-  });
+    required this.lastMessageAt,
+  })  : createdAt = DateTime.now(),
+        conversationId = conversationId ?? const Uuid().v4();
 
   factory ConversationsModel.fromJson(Map<String, dynamic> json) {
     return ConversationsModel(
+      lastMessage: json['lastMessage'],
       conversationId: json['conversationId'],
-      createdAt: json['createdAt'],
-      participants: json['participants'],
-      messages: json['messages'],
+      createdAt: DateTimeConvert.convertStringToDateTime(json['createdAt']),
+      participants: List<String>.from(json['participants']),
+      lastMessageAt:
+          DateTime.fromMillisecondsSinceEpoch(json['lastMessageAt'] as int),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'conversationId': conversationId,
-      'createdAt': createdAt,
+      'createdAt': DateTimeConvert.convertDateTimeToString(createdAt),
       'participants': participants,
-      'messages': messages,
+      'lastMessageAt': lastMessageAt.millisecondsSinceEpoch,
+      'lastMessage': lastMessage,
     };
   }
 }

@@ -1,27 +1,18 @@
-class Participants {
-  final String userId;
-  final String username;
-  final String avatarUrl;
+import 'package:kit_chat_app/domain/models/message_model.dart';
 
-  Participants({
-    required this.userId,
-    required this.username,
-    required this.avatarUrl,
-  });
+class ChatModel {
+  List<Message> messages;
+  ChatModel({required this.messages});
 
-  factory Participants.fromJson(Map<String, dynamic> json) {
-    return Participants(
-      userId: json['userId'],
-      username: json['username'],
-      avatarUrl: json['avatarUrl'],
+  factory ChatModel.fromJson(Map<String, dynamic> json) {
+    return ChatModel(
+      messages: List<Message>.from(json['messages']),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'userId': userId,
-      'username': username,
-      'avatarUrl': avatarUrl,
+      'messages': messages,
     };
   }
 }

@@ -9,10 +9,12 @@ class UserModel {
   final String email;
   final String avatarUrl;
   final Status status;
+  final List<String> friend;
 
   UserModel({
     String? userId,
     required this.username,
+    required this.friend,
     required this.email,
     required this.avatarUrl,
     this.status = Status.offline,
@@ -20,11 +22,12 @@ class UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      userId: json['userId'],
-      username: json['username'],
-      email: json['email'],
-      avatarUrl: json['avatarUrl'],
-      status: json['status'],
+      userId: json['userId'] ?? '',
+      username: json['username'] ?? '',
+      email: json['email'] ?? '',
+      avatarUrl: json['avatarUrl'] ?? '',
+      friend: List<String>.from(json['friend'] ?? []),
+      status: AppConvert.stringToStatus(json['status'] ?? 'offline'),
     );
   }
 
@@ -35,6 +38,7 @@ class UserModel {
       'email': email,
       'avatarUrl': avatarUrl,
       'status': AppConvert.statusToString(status),
+      'friend': friend,
     };
   }
 }

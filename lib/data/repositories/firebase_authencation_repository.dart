@@ -4,14 +4,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kit_chat_app/domain/models/user_model.dart';
-// import 'package:kit_chat_app/domain/models/user_model.dart';
 import 'package:kit_chat_app/domain/repositories/authencation_repository.dart';
 
 class FirebaseAuthencationRepository implements AuthencationRepository {
   final _firebaseAuth = FirebaseAuth.instance;
   @override
-  Future<String> getUser() {
-    throw UnimplementedError();
+  Future<UserModel> getUser() async {
+    final userId = _firebaseAuth.currentUser?.uid ?? '';
+    final value =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    final result = value.data();
+    final userModel = UserModel.fromJson(result ?? {});
+    return userModel;
   }
 
   @override
@@ -52,6 +56,7 @@ class FirebaseAuthencationRepository implements AuthencationRepository {
   Future<void> addUserToDatabase(UserCredential userCredential) async {
     final user = userCredential.user;
     final userModel = UserModel(
+      friend: [],
       userId: user?.uid,
       username: user?.displayName ?? '',
       email: user?.email ?? '',
