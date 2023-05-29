@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,19 +6,23 @@ import 'package:kit_chat_app/common/config/setup.dart';
 import 'package:kit_chat_app/domain/models/conversations_model.dart';
 import 'package:kit_chat_app/domain/models/user_model.dart';
 import 'package:kit_chat_app/domain/usecases/authencation_usecase.dart';
+import 'package:kit_chat_app/domain/usecases/user_usecase.dart';
 import 'package:kit_chat_app/persenstation/app_controller/app_controller.dart';
 import 'package:kit_chat_app/route/app_route.dart';
 
 class HomeController extends GetxController with AppController {
   final AuthencationUseCase _authencationUseCase = getIt<AuthencationUseCase>();
+  final UserModelUsecase _userModelUsecase = getIt<UserModelUsecase>();
   final _auth = FirebaseAuth.instance;
   TextEditingController searchBarController = TextEditingController();
+
   UserModel? user;
   RxList<ConversationsModel> conversations = <ConversationsModel>[].obs;
   RxList<UserModel> friends = <UserModel>[].obs;
 
   @override
   void onInit() async {
+    _userModelUsecase.updateStatus(_auth.currentUser!.uid, true);
     super.onInit();
   }
 
@@ -28,6 +30,7 @@ class HomeController extends GetxController with AppController {
   onReady() async {
     super.onReady();
     loadedType.value = LoadedType.start;
+
     user = await _authencationUseCase.getUser();
     await getConversations();
     await Future.delayed(const Duration(seconds: 1));
@@ -63,7 +66,6 @@ class HomeController extends GetxController with AppController {
 
   void catchEvents(QuerySnapshot<Map<String, dynamic>> snapshot) async {
     for (var change in snapshot.docChanges) {
-      log('change: ${change.doc.data()}');
       final data = change.doc.data() ?? {};
       final conversation = ConversationsModel.fromJson(data);
       final conversationId = change.doc.id;

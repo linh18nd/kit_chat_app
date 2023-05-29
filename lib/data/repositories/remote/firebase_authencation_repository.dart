@@ -63,9 +63,18 @@ class FirebaseAuthencationRepository implements AuthencationRepository {
       avatarUrl: user?.photoURL ?? '',
       status: Status.offline,
     );
-    _fireStore.collection('users').doc(user?.uid).set(
-          userModel.toJson(),
-        );
+
+    final value = await _fireStore.collection('users').doc(user?.uid).get();
+    if (!value.exists) {
+      await _fireStore.collection('users').doc(user?.uid).set(
+            userModel.toJson(),
+          );
+    } else {
+      await _fireStore
+          .collection('users')
+          .doc(user?.uid)
+          .update(value.data() as Map<Object, Object>);
+    }
     log('User model: ${userModel.toJson()}');
   }
 
