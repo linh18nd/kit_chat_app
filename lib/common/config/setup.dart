@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:kit_chat_app/data/repositories/firebase_authencation_repository.dart';
+import 'package:kit_chat_app/data/repositories/remote/firebase_authencation_repository.dart';
 import 'package:kit_chat_app/data/repositories/remote/chat_repository.dart';
 import 'package:kit_chat_app/domain/usecases/authencation_usecase.dart';
 import 'package:kit_chat_app/domain/usecases/chat_model_usecase.dart';

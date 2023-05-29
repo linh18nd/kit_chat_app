@@ -22,7 +22,7 @@ class MessageView extends StatelessWidget {
         alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          // crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             if (!isMe)
               CircleAvatar(
@@ -37,7 +37,17 @@ class MessageView extends StatelessWidget {
               padding: const EdgeInsets.all(12.0),
               decoration: BoxDecoration(
                 color: isMe ? Colors.blue : Colors.grey,
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: isMe
+                    ? BorderRadius.only(
+                        topLeft: Radius.circular(16.0.r),
+                        topRight: Radius.circular(16.0.r),
+                        bottomLeft: Radius.circular(16.0.r),
+                      )
+                    : BorderRadius.only(
+                        topRight: Radius.circular(16.0.r),
+                        topLeft: Radius.circular(16.0.r),
+                        bottomRight: Radius.circular(16.0.r),
+                      ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

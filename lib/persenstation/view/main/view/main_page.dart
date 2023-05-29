@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kit_chat_app/persenstation/app_theme/theme_export.dart';
+import 'package:kit_chat_app/persenstation/view/friend/views/friend_page.dart';
 import 'package:kit_chat_app/persenstation/view/home/view/home_page.dart';
 import 'package:kit_chat_app/persenstation/view/main/controllers/main_controller.dart';
 import 'package:kit_chat_app/persenstation/view/main/view/widget/main_item.dart';
@@ -71,7 +72,7 @@ class MainPage extends GetView<MainController> {
 
     final List<Widget> listScreenTab = [
       const HomePage(),
-      const HomePage(),
+      const FriendPage(),
     ];
     return Scaffold(
       body: Obx(

@@ -1,4 +1,4 @@
-import 'package:kit_chat_app/data/repositories/firebase_authencation_repository.dart';
+import 'package:kit_chat_app/data/repositories/remote/firebase_authencation_repository.dart';
 import 'package:kit_chat_app/domain/models/user_model.dart';
 import 'package:kit_chat_app/domain/repositories/authencation_repository.dart';
 

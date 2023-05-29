@@ -6,7 +6,7 @@ import 'package:kit_chat_app/common/config/setup.dart';
 import 'package:kit_chat_app/domain/repositories/authencation_repository.dart';
 import 'package:kit_chat_app/domain/usecases/authencation_usecase.dart';
 import 'package:kit_chat_app/persenstation/app_controller/app_controller.dart';
-import 'package:kit_chat_app/persenstation/route/app_route.dart';
+import 'package:kit_chat_app/route/app_route.dart';
 
 class LoginController extends GetxController with AppController {
   final AuthencationUseCase _authencationUseCase = getIt<AuthencationUseCase>();
@@ -22,7 +22,7 @@ class LoginController extends GetxController with AppController {
     _authencationUseCase.logInWithSocial(type).then(
       (value) {
         if (_auth.currentUser != null) {
-          Get.offAllNamed(Path.main);
+          Get.offAllNamed(AppPath.home);
         } else {
           Get.snackbar("Error", "Login failed");
         }
@@ -36,6 +36,6 @@ class LoginController extends GetxController with AppController {
 
   void logout() {
     _authencationUseCase.logOut();
-    Get.offAllNamed(Path.login);
+    Get.offAllNamed(AppPath.login);
   }
 }

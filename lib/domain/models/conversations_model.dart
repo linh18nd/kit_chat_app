@@ -37,4 +37,20 @@ class ConversationsModel {
       'lastMessage': lastMessage,
     };
   }
+
+  ConversationsModel copyWith({
+    String? conversationId,
+    DateTime? createdAt,
+    List<String?>? participants,
+    DateTime? lastMessageAt,
+    String? lastMessage,
+  }) {
+    return ConversationsModel(
+      conversationId: conversationId ?? this.conversationId,
+      createdAt: createdAt ?? this.createdAt,
+      participants: participants ?? this.participants,
+      lastMessageAt: lastMessageAt ?? this.lastMessageAt,
+      lastMessage: lastMessage ?? this.lastMessage,
+    );
+  }
 }

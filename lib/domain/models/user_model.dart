@@ -9,14 +9,16 @@ class UserModel {
   final String email;
   final String avatarUrl;
   final Status status;
-  final List<String> friend;
+  final List<String> friends;
+  final List<String> friendRequest;
 
   UserModel({
     String? userId,
     required this.username,
-    required this.friend,
+    required this.friends,
     required this.email,
     required this.avatarUrl,
+    this.friendRequest = const [],
     this.status = Status.offline,
   }) : userId = userId ?? const Uuid().v4();
 
@@ -26,8 +28,9 @@ class UserModel {
       username: json['username'] ?? '',
       email: json['email'] ?? '',
       avatarUrl: json['avatarUrl'] ?? '',
-      friend: List<String>.from(json['friend'] ?? []),
+      friends: List<String>.from(json['friends'] ?? []),
       status: AppConvert.stringToStatus(json['status'] ?? 'offline'),
+      friendRequest: List<String>.from(json['friendRequest'] ?? []),
     );
   }
 
@@ -38,7 +41,8 @@ class UserModel {
       'email': email,
       'avatarUrl': avatarUrl,
       'status': AppConvert.statusToString(status),
-      'friend': friend,
+      'friends': friends,
+      'friendRequest': friendRequest,
     };
   }
 }

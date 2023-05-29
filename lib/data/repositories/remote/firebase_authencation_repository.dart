@@ -8,11 +8,11 @@ import 'package:kit_chat_app/domain/repositories/authencation_repository.dart';
 
 class FirebaseAuthencationRepository implements AuthencationRepository {
   final _firebaseAuth = FirebaseAuth.instance;
+  final _fireStore = FirebaseFirestore.instance;
   @override
   Future<UserModel> getUser() async {
     final userId = _firebaseAuth.currentUser?.uid ?? '';
-    final value =
-        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    final value = await _fireStore.collection('users').doc(userId).get();
     final result = value.data();
     final userModel = UserModel.fromJson(result ?? {});
     return userModel;
@@ -56,14 +56,14 @@ class FirebaseAuthencationRepository implements AuthencationRepository {
   Future<void> addUserToDatabase(UserCredential userCredential) async {
     final user = userCredential.user;
     final userModel = UserModel(
-      friend: [],
+      friends: [],
       userId: user?.uid,
       username: user?.displayName ?? '',
       email: user?.email ?? '',
       avatarUrl: user?.photoURL ?? '',
       status: Status.offline,
     );
-    FirebaseFirestore.instance.collection('users').doc(user?.uid).set(
+    _fireStore.collection('users').doc(user?.uid).set(
           userModel.toJson(),
         );
     log('User model: ${userModel.toJson()}');

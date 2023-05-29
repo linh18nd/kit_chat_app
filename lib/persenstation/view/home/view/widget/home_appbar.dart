@@ -3,46 +3,71 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kit_chat_app/domain/models/user_model.dart';
 import 'package:kit_chat_app/persenstation/app_theme/color_theme.dart';
-import 'package:kit_chat_app/persenstation/route/app_route.dart';
+import 'package:kit_chat_app/route/app_route.dart';
 
 class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const HomeAppBar({Key? key, required this.user, this.onLogout})
-      : super(key: key);
+  const HomeAppBar({
+    Key? key,
+    required this.user,
+    this.onLogout,
+    required this.onSearch,
+  }) : super(key: key);
+
   final UserModel? user;
   final VoidCallback? onLogout;
+  final VoidCallback? onSearch;
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: AppColors.primaryColor,
       toolbarHeight: 56.h,
       elevation: 0,
-      title: Text(
-        user?.username ?? '',
+      title: const Text(
+        "Cuộc trò chuyện",
         style: TextStyle(
-          fontSize: 16.sp,
-          fontWeight: FontWeight.bold,
+          color: AppColors.textSecondary,
         ),
       ),
-      leading: CircleAvatar(
-        radius: 20.r,
-        backgroundImage: NetworkImage(user?.avatarUrl ?? ''),
+      leading: GestureDetector(
+        onTap: () {
+          Get.toNamed(AppPath.profile, arguments: user);
+        },
+        child: Container(
+          margin: EdgeInsets.only(left: 16.w),
+          width: 32.w,
+          height: 32.w,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: AppColors.divider,
+              width: 2.0,
+            ),
+            shape: BoxShape.circle,
+            image: DecorationImage(
+              image: NetworkImage(user?.avatarUrl ?? ''),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
       ),
       actions: [
-        IconButton(
-          onPressed: () {
-            Get.toNamed(Path.search);
-          },
-          icon: const Icon(Icons.search),
-          iconSize: 24.sp,
-        ),
-        IconButton(
-          onPressed: onLogout,
-          icon: Icon(
-            Icons.logout,
-            color: AppColors.background,
-            size: 24.sp,
-          ),
-          iconSize: 24.sp,
-        ),
+        // IconButton(
+        //   onPressed: onSearch,
+        //   icon: const Icon(
+        //     Icons.search,
+        //     color: AppColors.iconColor,
+        //   ),
+        //   iconSize: 24.sp,
+        // ),
+        // IconButton(
+        //   onPressed: onLogout,
+        //   icon: Icon(
+        //     Icons.logout,
+        //     color: AppColors.iconColor,
+        //     size: 24.sp,
+        //   ),
+        //   iconSize: 24.sp,
+        // ),
       ],
     );
   }

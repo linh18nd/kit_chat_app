@@ -20,22 +20,41 @@ class SearchPage extends GetView<SearchPageController> {
       body: Obx(
         () => controller.loadedType.value == LoadedType.start
             ? const Center(child: CircularProgressIndicator())
-            : ListView.builder(
-                itemCount: controller.users.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage:
-                          NetworkImage(controller.users[index].avatarUrl),
-                    ),
-                    title: Text(controller.users[index].username),
-                    subtitle: Text(controller.users[index].email),
-                    onTap: () {
-                      controller.addFriend(controller.users[index]);
+            : controller.users.isEmpty
+                ? const Center(
+                    child: Text("Khong tìm thấy"),
+                  )
+                : ListView.builder(
+                    itemCount: controller.users.length,
+                    itemBuilder: (context, index) {
+                      final isFriend =
+                          controller.checkFriend(controller.users[index]);
+                      return ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage:
+                              NetworkImage(controller.users[index].avatarUrl),
+                        ),
+                        title: Text(controller.users[index].username),
+                        subtitle: Text(controller.users[index].email),
+                        trailing: isFriend
+                            ? IconButton(
+                                onPressed: () {
+                                  Get.back();
+                                  controller
+                                      .chatWithFriend(controller.users[index]);
+                                },
+                                icon: const Icon(Icons.message),
+                              )
+                            : IconButton(
+                                onPressed: () {
+                                  controller.addFriend(controller.users[index]);
+                                  Get.back();
+                                },
+                                icon: const Icon(Icons.person_add),
+                              ),
+                      );
                     },
-                  );
-                },
-              ),
+                  ),
       ),
     );
   }

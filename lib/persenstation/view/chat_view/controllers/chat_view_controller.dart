@@ -39,8 +39,8 @@ class ChatController extends GetxController with AppController {
       senderId: userId,
       timestamp: DateTime.now(),
     );
-    await _chatModelUsecase.sendMessage(message, conversationId);
     messageController.clear();
+    await _chatModelUsecase.sendMessage(message, conversationId);
   }
 
   bool isMe(Message message) {

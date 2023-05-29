@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:kit_chat_app/persenstation/app_controller/app_controller.dart';
-import 'package:kit_chat_app/persenstation/route/app_route.dart';
+import 'package:kit_chat_app/route/app_route.dart';
 
 class SplashController extends GetxController with AppController {
   final _auth = FirebaseAuth.instance;
@@ -18,9 +18,10 @@ class SplashController extends GetxController with AppController {
   void onReady() {
     super.onReady();
     if (_auth.currentUser != null) {
-      Get.offAllNamed(Path.main);
+      // Get.offAllNamed(AppPath.main);
+      Get.offAllNamed(AppPath.home);
     } else {
-      Get.offAllNamed(Path.login);
+      Get.offAllNamed(AppPath.login);
     }
   }
 }

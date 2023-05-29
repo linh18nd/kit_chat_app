@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:kit_chat_app/persenstation/view/friend/controllers/friend_controllers.dart';
 import 'package:kit_chat_app/persenstation/view/home/controllers/home_controller.dart';
 import 'package:kit_chat_app/persenstation/view/main/controllers/main_controller.dart';
 
@@ -7,5 +8,6 @@ class MainBinding extends Bindings {
   void dependencies() {
     Get.lazyPut<MainController>(() => MainController());
     Get.lazyPut<HomeController>(() => HomeController());
+    Get.lazyPut<FriendController>(() => FriendController());
   }
 }

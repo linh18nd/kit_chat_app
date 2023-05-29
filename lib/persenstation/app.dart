@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:kit_chat_app/persenstation/route/app_route.dart';
+import '../../route/app_route.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
