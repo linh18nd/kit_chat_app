@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -44,9 +46,9 @@ class ProfilePage extends GetView<ProfileController> {
             SizedBox(height: 16.h),
             ElevatedButton(
               onPressed: () {
-                // Do something
+                FirebaseAuth.instance.signOut();
+                Get.offAllNamed('/login');
               },
-              child: Text('Edit Profile'),
               style: ElevatedButton.styleFrom(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -55,6 +57,7 @@ class ProfilePage extends GetView<ProfileController> {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
+              child: const Text('Edit Profile'),
             ),
           ],
         ),

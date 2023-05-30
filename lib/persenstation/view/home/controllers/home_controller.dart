@@ -9,7 +9,6 @@ import 'package:kit_chat_app/domain/models/user_model.dart';
 import 'package:kit_chat_app/domain/usecases/authencation_usecase.dart';
 import 'package:kit_chat_app/domain/usecases/user_usecase.dart';
 import 'package:kit_chat_app/persenstation/app_controller/app_controller.dart';
-import 'package:kit_chat_app/persenstation/service/firebase_message.dart';
 import 'package:kit_chat_app/route/app_route.dart';
 
 class HomeController extends GetxController with AppController {
@@ -24,9 +23,9 @@ class HomeController extends GetxController with AppController {
 
   @override
   void onInit() async {
-    final token = await FirebaseMessagingService.getToken();
-    _userModelUsecase.updateStatus(_auth.currentUser!.uid, true, token!);
     super.onInit();
+    final token = await FirebaseMessaging.instance.getToken();
+    _userModelUsecase.updateStatus(_auth.currentUser!.uid, true, token!);
   }
 
   @override

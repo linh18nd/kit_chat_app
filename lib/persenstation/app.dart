@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -32,18 +33,21 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     FirebaseAuth auth = FirebaseAuth.instance;
-    // if (state == AppLifecycleState.resumed) {
-    //   log('Ứng dụng đã được mở');
-    //   if (auth.currentUser != null) {
-    //     await userModelUsecase.updateStatus(auth.currentUser!.uid, true);
-    //   }
-    // } else if (state == AppLifecycleState.paused) {
-    //   log('Ứng dụng đã bị đóng');
-    //   log(auth.currentUser!.uid);
-    //   if (auth.currentUser != null) {
-    //     await userModelUsecase.updateStatus(auth.currentUser!.uid, false);
-    //   }
-    // }
+    final token = await FirebaseMessaging.instance.getToken();
+    if (state == AppLifecycleState.resumed) {
+      log('Ứng dụng đã được mở');
+      if (auth.currentUser != null) {
+        await userModelUsecase.updateStatus(
+            auth.currentUser!.uid, true, token!);
+      }
+    } else if (state == AppLifecycleState.paused) {
+      log('Ứng dụng đã bị đóng');
+      log(auth.currentUser!.uid);
+      if (auth.currentUser != null) {
+        await userModelUsecase.updateStatus(
+            auth.currentUser!.uid, false, token!);
+      }
+    }
   }
 
   @override
