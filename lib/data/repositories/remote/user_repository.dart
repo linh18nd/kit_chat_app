@@ -15,9 +15,13 @@ class UserModelRepository implements UserRepository {
   }
 
   @override
-  Future<void> updateStatus(String userId, bool isOnline) async {
-    return await _firestore.collection('users').doc(userId).update({
-      'status': isOnline ? 'online' : 'offline',
-    });
+  Future<void> updateStatus(
+      String userId, bool isOnline, String messagingToken) async {
+    return await _firestore.collection('users').doc(userId).update(
+      {
+        'status': isOnline ? 'online' : 'offline',
+        'messagingToken': messagingToken,
+      },
+    );
   }
 }

@@ -9,6 +9,7 @@ class UserModel {
   final String email;
   final String avatarUrl;
   final Status status;
+  final String? messagingToken;
   final List<String> friends;
   final List<String> friendRequest;
 
@@ -17,6 +18,7 @@ class UserModel {
     required this.username,
     required this.friends,
     required this.email,
+    this.messagingToken,
     required this.avatarUrl,
     this.friendRequest = const [],
     this.status = Status.offline,
@@ -29,6 +31,7 @@ class UserModel {
       email: json['email'] ?? '',
       avatarUrl: json['avatarUrl'] ?? '',
       friends: List<String>.from(json['friends'] ?? []),
+      messagingToken: json['messagingToken'] ?? '',
       status: AppConvert.stringToStatus(json['status'] ?? 'offline'),
       friendRequest: List<String>.from(json['friendRequest'] ?? []),
     );
@@ -43,6 +46,7 @@ class UserModel {
       'status': AppConvert.statusToString(status),
       'friends': friends,
       'friendRequest': friendRequest,
+      'messagingToken': messagingToken,
     };
   }
 }

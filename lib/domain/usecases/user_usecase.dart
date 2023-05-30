@@ -5,7 +5,8 @@ class UserModelUsecase {
 
   UserModelUsecase(this._repository);
 
-  Future<void> updateStatus(String userId, bool isOnline) async {
-    return await _repository.updateStatus(userId, isOnline);
+  Future<void> updateStatus(
+      String userId, bool isOnline, String messagingToken) async {
+    return await _repository.updateStatus(userId, isOnline, messagingToken);
   }
 }

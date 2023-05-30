@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kit_chat_app/common/config/setup.dart';
@@ -8,6 +9,7 @@ import 'package:kit_chat_app/domain/models/user_model.dart';
 import 'package:kit_chat_app/domain/usecases/authencation_usecase.dart';
 import 'package:kit_chat_app/domain/usecases/user_usecase.dart';
 import 'package:kit_chat_app/persenstation/app_controller/app_controller.dart';
+import 'package:kit_chat_app/persenstation/service/firebase_message.dart';
 import 'package:kit_chat_app/route/app_route.dart';
 
 class HomeController extends GetxController with AppController {
@@ -22,7 +24,8 @@ class HomeController extends GetxController with AppController {
 
   @override
   void onInit() async {
-    _userModelUsecase.updateStatus(_auth.currentUser!.uid, true);
+    final token = await FirebaseMessagingService.getToken();
+    _userModelUsecase.updateStatus(_auth.currentUser!.uid, true, token!);
     super.onInit();
   }
 

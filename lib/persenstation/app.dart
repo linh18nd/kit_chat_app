@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kit_chat_app/common/config/setup.dart';
 import 'package:kit_chat_app/domain/usecases/user_usecase.dart';
-import '../../route/app_route.dart';
+import 'package:kit_chat_app/route/app_route.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -32,18 +32,18 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     FirebaseAuth auth = FirebaseAuth.instance;
-    if (state == AppLifecycleState.resumed) {
-      log('Ứng dụng đã được mở');
-      if (auth.currentUser != null) {
-        await userModelUsecase.updateStatus(auth.currentUser!.uid, true);
-      }
-    } else if (state == AppLifecycleState.paused) {
-      log('Ứng dụng đã bị đóng');
-      log(auth.currentUser!.uid);
-      if (auth.currentUser != null) {
-        await userModelUsecase.updateStatus(auth.currentUser!.uid, false);
-      }
-    }
+    // if (state == AppLifecycleState.resumed) {
+    //   log('Ứng dụng đã được mở');
+    //   if (auth.currentUser != null) {
+    //     await userModelUsecase.updateStatus(auth.currentUser!.uid, true);
+    //   }
+    // } else if (state == AppLifecycleState.paused) {
+    //   log('Ứng dụng đã bị đóng');
+    //   log(auth.currentUser!.uid);
+    //   if (auth.currentUser != null) {
+    //     await userModelUsecase.updateStatus(auth.currentUser!.uid, false);
+    //   }
+    // }
   }
 
   @override
