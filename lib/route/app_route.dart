@@ -71,4 +71,6 @@ class AppPath {
   static const String chat = '/chat';
   static const String friend = '/friend';
   static const String profile = '/profile';
+
+  static const String imagePreview = '/imagePreview';
 }

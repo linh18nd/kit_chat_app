@@ -7,10 +7,6 @@ class UserModelUsecase {
 
   Future<void> updateStatus(
       String userId, bool isOnline, String messagingToken) async {
-    return await _repository.updateStatus(userId, isOnline);
-  }
-
-  void trackStatus(String uid) {
-    return _repository.trackUserStatus(uid);
+    return await _repository.updateStatus(userId, isOnline, messagingToken);
   }
 }

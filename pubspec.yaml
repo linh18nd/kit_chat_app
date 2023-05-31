@@ -24,6 +24,9 @@ dependencies:
   get: ^4.6.5
   flutter_screenutil: ^5.8.1
   intl: ^0.18.1
+  image_picker: ^0.8.7+5
+  cached_network_image: ^3.2.3
+  wechat_assets_picker: ^8.5.0
   # firebase
   firebase_core: ^2.13.0
   firebase_auth: ^4.6.1

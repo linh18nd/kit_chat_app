@@ -1,3 +1,4 @@
+import 'package:kit_chat_app/utils/convert/app_convert.dart';
 import 'package:uuid/uuid.dart';
 
 enum MessageType { text, image, video, audio, file }
@@ -19,7 +20,7 @@ class Message {
 
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
-      type: MessageType.values[json['type'] as int],
+      type: AppConvert.getMessageTypeFromString(json['type'] as String),
       messageId: json['messageId'],
       senderId: json['senderId'],
       content: json['content'],
@@ -33,7 +34,7 @@ class Message {
       'senderId': senderId,
       'content': content,
       'timestamp': timestamp.millisecondsSinceEpoch,
-      'type': type.index,
+      'type': type.name,
     };
   }
 }

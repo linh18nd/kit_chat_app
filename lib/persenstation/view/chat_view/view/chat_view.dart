@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kit_chat_app/domain/models/message_model.dart';
 import 'package:kit_chat_app/persenstation/view/chat_view/controllers/chat_view_controller.dart';
 import 'package:kit_chat_app/persenstation/view/chat_view/view/widgets/conversations_title.dart.dart';
 import 'package:kit_chat_app/persenstation/view/chat_view/view/widgets/message_view.dart';
@@ -19,7 +20,7 @@ class ChatPage extends GetView<ChatController> {
           Expanded(
             child: _buildMessageView(),
           ),
-          _buildSendMessage(),
+          _buildSendMessage(context),
         ],
       ),
     );
@@ -37,6 +38,9 @@ class ChatPage extends GetView<ChatController> {
               itemBuilder: (context, index) {
                 final message = controller.messages[index];
                 return MessageView(
+                  onTap: (url) {
+                    controller.openImage(url);
+                  },
                   message: message,
                   isMe: controller.isMe(message),
                   friendImage: controller.friend?.avatarUrl ?? '',
@@ -47,7 +51,7 @@ class ChatPage extends GetView<ChatController> {
     );
   }
 
-  Widget _buildSendMessage() {
+  Widget _buildSendMessage(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8.0),
       child: Row(
@@ -66,12 +70,14 @@ class ChatPage extends GetView<ChatController> {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              controller.openImagePicker(context);
+            },
             icon: const Icon(Icons.image),
           ),
           IconButton(
             onPressed: () {
-              controller.sendMessage();
+              controller.sendTextMessage();
             },
             icon: const Icon(Icons.send),
           ),

@@ -1,3 +1,4 @@
+import 'package:kit_chat_app/domain/models/message_model.dart';
 import 'package:kit_chat_app/domain/models/user_model.dart';
 
 class AppConvert {
@@ -20,6 +21,23 @@ class AppConvert {
         return 'offline';
       default:
         return 'offline';
+    }
+  }
+
+  static MessageType getMessageTypeFromString(String value) {
+    switch (value) {
+      case 'text':
+        return MessageType.text;
+      case 'image':
+        return MessageType.image;
+      case 'video':
+        return MessageType.video;
+      case 'audio':
+        return MessageType.audio;
+      case 'file':
+        return MessageType.file;
+      default:
+        throw ArgumentError('Invalid MessageType: $value');
     }
   }
 }

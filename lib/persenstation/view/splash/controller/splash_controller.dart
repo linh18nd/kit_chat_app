@@ -21,7 +21,6 @@ class SplashController extends GetxController with AppController {
   void onReady() {
     super.onReady();
     if (_auth.currentUser != null) {
-      _userModelUsecase.trackStatus(_auth.currentUser!.uid);
       Get.offAllNamed(AppPath.home);
     } else {
       Get.offAllNamed(AppPath.login);

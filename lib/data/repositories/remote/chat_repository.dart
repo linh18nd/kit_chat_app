@@ -34,13 +34,17 @@ class ChatModelRepository implements ChatRepository {
         .doc(conversationsId)
         .collection('messages')
         .add(message.toJson());
-    await updateLastMessage(message, conversationsId);
+    await updateLastMessage(message, conversationsId, message.type);
   }
 
   Future<void> updateLastMessage(
-      Message message, String conversationsId) async {
+      Message message, String conversationsId, MessageType messageType) async {
     await _firestore.collection('conversations').doc(conversationsId).update({
-      'lastMessage': message.content,
+      'lastMessage': messageType == MessageType.text
+          ? message.content
+          : messageType == MessageType.image
+              ? 'Image'
+              : 'Video',
       'lastMessageAt': message.timestamp.millisecondsSinceEpoch
     });
   }
