@@ -84,7 +84,9 @@ class ChatController extends GetxController with AppController {
         imageUrls.add(imageUrl);
       }
     }
-
+    if (imageUrls.isEmpty) {
+      return;
+    }
     sendImageMessage(imageUrls.join(', '));
   }
 
