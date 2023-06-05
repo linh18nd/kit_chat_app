@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:kit_chat_app/domain/models/message_model.dart';
 import 'package:kit_chat_app/persenstation/view/chat_view/controllers/chat_view_controller.dart';
 import 'package:kit_chat_app/persenstation/view/chat_view/view/widgets/conversations_title.dart.dart';
 import 'package:kit_chat_app/persenstation/view/chat_view/view/widgets/message_view.dart';
@@ -20,9 +20,10 @@ class ChatPage extends GetView<ChatController> {
           Expanded(
             child: _buildMessageView(),
           ),
-          _buildSendMessage(context),
+          SizedBox(height: 70.0.h),
         ],
       ),
+      floatingActionButton: _buildSendMessage(context),
     );
   }
 
@@ -56,18 +57,11 @@ class ChatPage extends GetView<ChatController> {
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
-          Expanded(
-            child: TextField(
-              controller: controller.messageController,
-              decoration: const InputDecoration(
-                hintText: 'Nhập tin nhắn',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(8.0),
-                  ),
-                ),
-              ),
-            ),
+          IconButton(
+            onPressed: () {
+              // Xử lý sự kiện khi nhấn menu
+            },
+            icon: const Icon(Icons.widgets),
           ),
           IconButton(
             onPressed: () {
@@ -77,9 +71,36 @@ class ChatPage extends GetView<ChatController> {
           ),
           IconButton(
             onPressed: () {
+              // Xử lý sự kiện khi nhấn âm thanh
+            },
+            icon: const Icon(Icons.volume_up),
+          ),
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 8.0.w),
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(8.0.r),
+              ),
+              child: TextField(
+                controller: controller.messageController,
+                decoration: InputDecoration(
+                  hintText: 'Nhập tin nhắn',
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                    borderRadius: BorderRadius.circular(20.0.r),
+                  ),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 8.0.w),
+                ),
+              ),
+            ),
+          ),
+          IconButton(
+            onPressed: () {
               controller.sendTextMessage();
             },
             icon: const Icon(Icons.send),
+            color: Theme.of(context).primaryColor,
           ),
         ],
       ),

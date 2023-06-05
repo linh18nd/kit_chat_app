@@ -40,8 +40,11 @@ class ChatController extends GetxController with AppController {
   }
 
   void sendTextMessage() async {
+    final content = messageController.text.trim();
+    if (content.isEmpty) return;
+
     final message = Message(
-      content: messageController.text,
+      content: content,
       senderId: userId,
       timestamp: DateTime.now(),
     );

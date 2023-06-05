@@ -42,7 +42,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
       }
     } else if (state == AppLifecycleState.paused) {
       log('Ứng dụng đã bị đóng');
-      log(auth.currentUser!.uid);
+      log(auth.currentUser?.uid ?? 'null');
       if (auth.currentUser != null) {
         await userModelUsecase.updateStatus(
             auth.currentUser!.uid, false, token!);
