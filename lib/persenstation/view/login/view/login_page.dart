@@ -60,10 +60,19 @@ class LoginPage extends GetView<LoginController> {
       child: Column(
         children: [
           _buildLoginButton(
+            authenticationType: AuthencationType.google,
             icon: AssetPath.iconGoogle,
             title: 'Login with Google',
             onPressed: () {
               controller.login(AuthencationType.google);
+            },
+          ),
+          _buildLoginButton(
+            authenticationType: AuthencationType.facebook,
+            icon: AssetPath.iconFacebook,
+            title: 'Login with Facebook',
+            onPressed: () {
+              controller.login(AuthencationType.facebook);
             },
           ),
         ],
@@ -71,34 +80,36 @@ class LoginPage extends GetView<LoginController> {
     );
   }
 
-  Widget _buildLoginButton(
-      {required String icon,
-      required String title,
-      required VoidCallback onPressed}) {
+  Widget _buildLoginButton({
+    required String icon,
+    required String title,
+    required VoidCallback onPressed,
+    required AuthencationType authenticationType,
+  }) {
+    Color backgroundColor;
+    if (authenticationType == AuthencationType.facebook) {
+      backgroundColor = const Color(0xFF4267B2);
+    } else if (authenticationType == AuthencationType.google) {
+      backgroundColor = Colors.white;
+    } else {
+      backgroundColor = Colors.transparent;
+    }
+
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        margin: EdgeInsets.only(
-          bottom: 10.h,
-          top: 10.h,
-          left: 30.w,
-          right: 30.w,
-        ),
+        margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 30.w),
         height: 50.h,
         decoration: BoxDecoration(
-          border: Border.all(
-            color: AppColors.divider,
-            width: 1,
-          ),
-          color: AppColors.primaryColor,
-          boxShadow: const [
+          borderRadius: BorderRadius.circular(15),
+          color: backgroundColor,
+          boxShadow: [
             BoxShadow(
               color: Colors.black12,
-              blurRadius: 10,
-              offset: Offset(0, 5),
+              blurRadius: 10.r,
+              offset: const Offset(0, 5),
             ),
           ],
-          borderRadius: BorderRadius.circular(15),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -113,9 +124,12 @@ class LoginPage extends GetView<LoginController> {
             ),
             Text(
               title,
-              style: const TextStyle(
-                color: AppColors.textColor,
-                fontSize: 16,
+              style: TextStyle(
+                color: authenticationType == AuthencationType.facebook
+                    ? Colors.white
+                    : Colors.black,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ],
