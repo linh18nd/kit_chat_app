@@ -6,10 +6,11 @@
              the Flutter engine draws its first frame -->
         <item name="android:windowBackground">@drawable/launch_background</item>
     </style>
-    
+    <string name="app_name"><com class="example kit_chat_app"></com></string>
+
 <string name="facebook_app_id">914202459634612</string>
-<string name="fb_login_protocol_scheme">fb1234</string>
-<string name="facebook_client_token">5a27df4ade7762e79fe7598eab740f7a</string>
+<string name="fb_login_protocol_scheme">fb914202459634612</string>
+<string name="facebook_client_token">a974d43e7a677941285af8ad3c63f3e8</string>
 
 
     <!-- Theme applied to the Android Window as soon as the process has started.

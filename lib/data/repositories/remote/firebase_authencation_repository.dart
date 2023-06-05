@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kit_chat_app/domain/models/user_model.dart';
 import 'package:kit_chat_app/domain/repositories/authencation_repository.dart';
@@ -21,6 +22,7 @@ class FirebaseAuthencationRepository implements AuthencationRepository {
   @override
   Future<void> logInWithSocial(AuthencationType type) async {
     if (type == AuthencationType.facebook) {
+      await signInWithFacebook();
     } else if (type == AuthencationType.google) {
       await signInWithGoogle();
     }
@@ -53,7 +55,34 @@ class FirebaseAuthencationRepository implements AuthencationRepository {
     }
   }
 
+  Future<void> signInWithFacebook() async {
+    try {
+      final LoginResult result = await FacebookAuth.instance.login();
+
+      if (result.status == LoginStatus.success) {
+        log('Sign in success');
+
+        final AccessToken accessToken = result.accessToken!;
+        final AuthCredential credential =
+            FacebookAuthProvider.credential(accessToken.token);
+
+        final UserCredential userCredential =
+            await FirebaseAuth.instance.signInWithCredential(credential);
+        await addUserToDatabase(userCredential);
+      } else {
+        log('Sign in fail');
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+  }
+
   Future<void> addUserToDatabase(UserCredential userCredential) async {
+    log('User credential: ${userCredential.user?.uid}');
+    log('User credential: ${userCredential.user?.displayName}');
+    log('User credential: ${userCredential.user?.email}');
+    log('User credential: ${userCredential.user?.photoURL}');
+
     final user = userCredential.user;
     final userModel = UserModel(
       friends: [],
