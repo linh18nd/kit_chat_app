@@ -1,7 +1,7 @@
-import 'dart:developer';
-
+import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:kit_chat_app/persenstation/service/local_notification.dart';
+import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
 
 class FirebaseMessagingService {
@@ -66,31 +66,34 @@ class FirebaseMessagingService {
     }
   }
 
-  static Future<void> sendNotification({
-    String? to,
-    Map<String, String>? data,
-    String? collapseKey,
-    String? messageId,
-    String? messageType,
-    int? ttl,
+  Future<void> sendNotification({
+    required String receiverToken,
+    required String title,
+    required String body,
   }) async {
     try {
-      if (ttl != null) {
-        assert(ttl >= 0);
-      }
-
-      await _firebaseMessaging.sendMessage(
-        to: to ?? '@fcm.googleapis.com',
-        data: data,
-        collapseKey: collapseKey,
-        messageId: messageId,
-        messageType: messageType,
-        ttl: ttl,
+      await http.post(
+        Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization':
+              'key=AAAABKARwlQ:APA91bGjGBSJNYknDWDhpSJMpo7Ee_UfImx760vZ1RB9tBHh-lRy_fognPh3OOsVV4gLkmeEM0Q8u5b4gIcHtezHI2dcHyCxDQ7KO3dbTnyDrhqwShjvy-3lAMIPiYgcIgQtHONrEelk',
+        },
+        body: jsonEncode(
+          <String, dynamic>{
+            'notification': <String, dynamic>{'body': body, 'title': title},
+            'priority': 'high',
+            'data': <String, dynamic>{
+              'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+              'id': '1',
+              'status': 'done'
+            },
+            "to": receiverToken,
+          },
+        ),
       );
-
-      log('Send notification success');
-    } catch (error) {
-      log('Send notification error: $error');
+    } catch (e) {
+      print("error push notification");
     }
   }
 }

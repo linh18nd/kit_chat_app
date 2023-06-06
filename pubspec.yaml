@@ -28,6 +28,7 @@ dependencies:
   cached_network_image: ^3.2.3
   wechat_assets_picker: ^8.5.0
   flutter_keyboard_visibility: ^5.4.1
+  http: ^0.13.6
   # firebase
   firebase_core: ^2.13.0
   firebase_auth: ^4.6.1

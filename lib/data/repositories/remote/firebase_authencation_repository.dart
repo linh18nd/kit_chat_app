@@ -63,8 +63,9 @@ class FirebaseAuthencationRepository implements AuthencationRepository {
         log('Sign in success');
 
         final AccessToken accessToken = result.accessToken!;
-        final AuthCredential credential =
-            FacebookAuthProvider.credential(accessToken.token);
+        final AuthCredential credential = FacebookAuthProvider.credential(
+          accessToken.token,
+        );
 
         final UserCredential userCredential =
             await FirebaseAuth.instance.signInWithCredential(credential);

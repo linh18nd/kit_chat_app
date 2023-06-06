@@ -16,7 +16,7 @@ class HomePage extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Obx(
       () => controller.loadedType.value == LoadedType.start
-          ? Scaffold(
+          ? const Scaffold(
               body: Center(
                 child: AppLoadingWidget(),
               ),
@@ -55,7 +55,7 @@ class HomePage extends GetView<HomeController> {
                   onTap: () {
                     Get.toNamed(AppPath.chat, arguments: {
                       'conversationId': conversation.conversationId,
-                      'userId': controller.user?.userId,
+                      'user': controller.user,
                       'friend': controller.friends[index],
                     });
                   },

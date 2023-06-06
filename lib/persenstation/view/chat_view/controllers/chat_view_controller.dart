@@ -16,14 +16,16 @@ class ChatController extends GetxController with AppController {
   final ChatModelUsecase _chatModelUsecase = getIt<ChatModelUsecase>();
   final RxList<Message> messages = RxList<Message>();
   final TextEditingController messageController = TextEditingController();
+  final Rx<LoadedType> loadedImage = LoadedType.end.obs;
+
   UserModel? friend;
   String conversationId = '';
-  String userId = '';
+  UserModel? user;
   @override
   void onInit() {
     super.onInit();
     conversationId = Get.arguments['conversationId'];
-    userId = Get.arguments['userId'];
+    user = Get.arguments['user'];
     friend = Get.arguments['friend'];
   }
 
@@ -45,25 +47,27 @@ class ChatController extends GetxController with AppController {
 
     final message = Message(
       content: content,
-      senderId: userId,
+      senderId: user?.userId ?? '',
       timestamp: DateTime.now(),
     );
     messageController.clear();
-    await _chatModelUsecase.sendMessage(message, conversationId);
+    await _chatModelUsecase.sendMessage(
+        message, conversationId, friend?.messagingToken ?? '', user!);
   }
 
   void sendImageMessage(String imageUrls) async {
     final message = Message(
       content: jsonEncode(imageUrls),
-      senderId: userId,
+      senderId: user?.userId ?? '',
       timestamp: DateTime.now(),
       type: MessageType.image,
     );
-    await _chatModelUsecase.sendMessage(message, conversationId);
+    await _chatModelUsecase.sendMessage(
+        message, conversationId, friend?.messagingToken ?? '', user!);
   }
 
   bool isMe(Message message) {
-    return message.senderId == userId;
+    return message.senderId == user?.userId;
   }
 
   Future<void> openImagePicker(context) async {
@@ -76,7 +80,7 @@ class ChatController extends GetxController with AppController {
       ),
     );
     final List<String> imageUrls = [];
-
+    loadedImage.value = LoadedType.start;
     if (assets != null) {
       for (AssetEntity asset in assets) {
         final File? file = await asset.file;
@@ -87,6 +91,7 @@ class ChatController extends GetxController with AppController {
     if (imageUrls.isEmpty) {
       return;
     }
+    loadedImage.value = LoadedType.end;
     sendImageMessage(imageUrls.join(', '));
   }
 

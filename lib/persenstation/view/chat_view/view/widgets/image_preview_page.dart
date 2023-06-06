@@ -36,15 +36,16 @@ class ImagePreviewPage extends StatelessWidget {
             child: GestureDetector(
               onTap: () => Get.back(),
               child: Container(
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(8.0.r),
-                  ),
-                  child: const Icon(
-                    Icons.arrow_back_ios,
-                    color: Colors.white,
-                  )),
+                padding: const EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(8.0.r),
+                ),
+                child: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.white,
+                ),
+              ),
             ),
           ),
         ],

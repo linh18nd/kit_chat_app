@@ -20,10 +20,9 @@ class ChatPage extends GetView<ChatController> {
           Expanded(
             child: _buildMessageView(),
           ),
-          SizedBox(height: 70.0.h),
+          _buildSendMessage(context),
         ],
       ),
-      floatingActionButton: _buildSendMessage(context),
     );
   }
 
@@ -54,6 +53,7 @@ class ChatPage extends GetView<ChatController> {
 
   Widget _buildSendMessage(BuildContext context) {
     return Container(
+      color: Colors.white,
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
@@ -82,15 +82,18 @@ class ChatPage extends GetView<ChatController> {
                 color: Colors.grey[200],
                 borderRadius: BorderRadius.circular(8.0.r),
               ),
-              child: TextField(
-                controller: controller.messageController,
-                decoration: InputDecoration(
-                  hintText: 'Nhập tin nhắn',
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(20.0.r),
+              child: SizedBox(
+                height: 40.h,
+                child: TextField(
+                  controller: controller.messageController,
+                  decoration: InputDecoration(
+                    hintText: 'Nhập tin nhắn',
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(20.0.r),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 8.0.w),
                   ),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 8.0.w),
                 ),
               ),
             ),
