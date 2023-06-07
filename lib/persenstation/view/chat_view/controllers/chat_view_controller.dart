@@ -52,7 +52,7 @@ class ChatController extends GetxController with AppController {
     );
     messageController.clear();
     await _chatModelUsecase.sendMessage(
-        message, conversationId, friend?.messagingToken ?? '', user!);
+        message, conversationId, friend!, user!);
   }
 
   void sendImageMessage(String imageUrls) async {
@@ -63,7 +63,7 @@ class ChatController extends GetxController with AppController {
       type: MessageType.image,
     );
     await _chatModelUsecase.sendMessage(
-        message, conversationId, friend?.messagingToken ?? '', user!);
+        message, conversationId, friend!, user!);
   }
 
   bool isMe(Message message) {

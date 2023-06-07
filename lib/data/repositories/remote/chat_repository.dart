@@ -32,7 +32,7 @@ class ChatModelRepository implements ChatRepository {
 
   @override
   Future<void> sendMessage(Message message, String conversationsId,
-      String recipientToken, UserModel userModel) async {
+      UserModel friend, UserModel userModel) async {
     await _firestore
         .collection('conversations')
         .doc(conversationsId)
@@ -45,9 +45,14 @@ class ChatModelRepository implements ChatRepository {
             : 'Video';
     updateLastMessage(message, conversationsId, message.type);
     _firebaseMessaging.sendNotification(
-      receiverToken: recipientToken,
+      receiverToken: friend.messagingToken!,
       title: userModel.username,
       body: content,
+      payload: {
+        'conversationId': conversationsId,
+        'user': userModel.toJson(),
+        'friend': friend.toJson(),
+      },
     );
   }
 

@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
+import 'package:kit_chat_app/domain/models/user_model.dart';
+import 'package:kit_chat_app/route/app_route.dart';
 
 class LocalNotificationService {
   static final FlutterLocalNotificationsPlugin
@@ -107,5 +111,20 @@ class LocalNotificationService {
     debugPrint("-------payload: $payload-------");
   }
 
-  static void _onReceiveNotification(NotificationResponse details) {}
+  static void _onReceiveNotification(NotificationResponse details) {
+    final payload = details.payload;
+    final result = jsonDecode(payload!);
+    final user = UserModel.fromJson(
+      jsonDecode(result['user']),
+    );
+    final friend = UserModel.fromJson(
+      jsonDecode(result['friend']),
+    );
+    final conversationId = result['conversationId'];
+    Get.toNamed(AppPath.chat, arguments: {
+      'conversationId': conversationId,
+      'user': user,
+      'friend': friend,
+    });
+  }
 }

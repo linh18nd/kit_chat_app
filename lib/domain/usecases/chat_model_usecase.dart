@@ -12,8 +12,8 @@ class ChatModelUsecase {
   }
 
   Future<void> sendMessage(Message message, String conversationsId,
-      String recipientToken, UserModel sender) {
+      UserModel friend, UserModel sender) {
     return _chatModelRepository.sendMessage(
-        message, conversationsId, recipientToken, sender);
+        message, conversationsId, friend, sender);
   }
 }

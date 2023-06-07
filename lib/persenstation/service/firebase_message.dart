@@ -36,20 +36,23 @@ class FirebaseMessagingService {
       },
     );
 
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      final notification = message.notification;
+    FirebaseMessaging.onMessageOpenedApp.listen(
+      (RemoteMessage message) {
+        final notification = message.notification;
 
-      if (notification != null) {
-        final title = notification.title ?? '';
-        final content = notification.body ?? '';
+        if (notification != null) {
+          final title = notification.title ?? '';
+          final content = notification.body ?? '';
 
-        LocalNotificationService.showNotification(
-          title: title,
-          content: content,
-          notiId: const Uuid().v1().hashCode,
-        );
-      }
-    });
+          LocalNotificationService.showNotification(
+            title: title,
+            content: content,
+            notiId: const Uuid().v1().hashCode,
+            payload: jsonEncode(message.data),
+          );
+        }
+      },
+    );
   }
 
   static Future<void> _firebaseMessagingBackgroundHandler(
@@ -61,10 +64,10 @@ class FirebaseMessagingService {
       final content = notification.body ?? '';
 
       LocalNotificationService.showNotification(
-        title: title,
-        content: content,
-        notiId: const Uuid().v1().hashCode,
-      );
+          title: title,
+          content: content,
+          notiId: const Uuid().v1().hashCode,
+          payload: jsonEncode(message.data));
     }
   }
 
@@ -72,6 +75,7 @@ class FirebaseMessagingService {
     required String receiverToken,
     required String title,
     required String body,
+    required Map<String, dynamic> payload,
   }) async {
     try {
       await http.post(
@@ -85,11 +89,7 @@ class FirebaseMessagingService {
           <String, dynamic>{
             'notification': <String, dynamic>{'body': body, 'title': title},
             'priority': 'high',
-            'data': <String, dynamic>{
-              'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-              'id': '1',
-              'status': 'done'
-            },
+            'data': payload,
             "to": receiverToken,
           },
         ),
