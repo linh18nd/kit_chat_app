@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:kit_chat_app/persenstation/view/call/bindings/call_binding.dart';
+import 'package:kit_chat_app/persenstation/view/call/view/call_view.dart';
 import 'package:kit_chat_app/persenstation/view/chat_view/bindings/chat_view_binding.dart';
 import 'package:kit_chat_app/persenstation/view/chat_view/view/chat_view.dart';
 import 'package:kit_chat_app/persenstation/view/friend/bindings/friend_binding.dart';
@@ -59,6 +61,11 @@ class AppRoute {
       page: () => const ProfilePage(),
       binding: ProfileBinding(),
     ),
+    GetPage(
+      name: AppPath.call,
+      page: () => const CallPage(),
+      binding: CallBinding(),
+    ),
   ];
 }
 
@@ -73,4 +80,5 @@ class AppPath {
   static const String profile = '/profile';
 
   static const String imagePreview = '/imagePreview';
+  static const String call = '/call';
 }

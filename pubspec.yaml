@@ -29,6 +29,8 @@ dependencies:
   wechat_assets_picker: ^8.5.0
   flutter_keyboard_visibility: ^5.4.1
   http: ^0.13.6
+  agora_rtc_engine: ^6.2.0
+  permission_handler: ^10.2.0
   # firebase
   firebase_core: ^2.13.0
   firebase_auth: ^4.6.1

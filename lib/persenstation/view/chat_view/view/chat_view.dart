@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:kit_chat_app/persenstation/view/chat_view/controllers/chat_view_controller.dart';
 import 'package:kit_chat_app/persenstation/view/chat_view/view/widgets/conversations_title.dart.dart';
 import 'package:kit_chat_app/persenstation/view/chat_view/view/widgets/message_view.dart';
+import 'package:kit_chat_app/route/app_route.dart';
 
 class ChatPage extends GetView<ChatController> {
   const ChatPage({super.key});
@@ -14,6 +15,21 @@ class ChatPage extends GetView<ChatController> {
       appBar: AppBar(
         title: ConversationTitle(friend: controller.friend),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.toNamed(AppPath.call, arguments: {
+                'friend': controller.friend,
+                'token': controller.conversationId,
+              });
+            },
+            icon: const Icon(Icons.call),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.video_call),
+          ),
+        ],
       ),
       body: Column(
         children: [

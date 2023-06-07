@@ -19,20 +19,22 @@ class FirebaseMessagingService {
   static Future<void> configureFirebaseMessaging() async {
     await _firebaseMessaging.requestPermission();
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      final notification = message.notification;
+    FirebaseMessaging.onMessage.listen(
+      (RemoteMessage message) {
+        final notification = message.notification;
 
-      if (notification != null) {
-        final title = notification.title ?? '';
-        final content = notification.body ?? '';
+        if (notification != null) {
+          final title = notification.title ?? '';
+          final content = notification.body ?? '';
 
-        LocalNotificationService.showNotification(
-          title: title,
-          content: content,
-          notiId: const Uuid().v1().hashCode,
-        );
-      }
-    });
+          LocalNotificationService.showNotification(
+            title: title,
+            content: content,
+            notiId: const Uuid().v1().hashCode,
+          );
+        }
+      },
+    );
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       final notification = message.notification;
