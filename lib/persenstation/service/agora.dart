@@ -24,8 +24,6 @@ class AgoraService {
         onUserOffline: (RtcConnection connection, int remoteUid,
             UserOfflineReasonType reason) {
           log("Remote user uid:$remoteUid left the channel");
-
-          // _remoteUid = null;
         },
       ),
     );
