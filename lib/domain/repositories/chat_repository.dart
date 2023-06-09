@@ -6,4 +6,7 @@ abstract class ChatRepository {
       UserModel friend, UserModel userModel);
 
   Stream<List<Message>> getMessages(String conversationId);
+
+  Future<void> sendNotification(String conversationsId, UserModel friend,
+      UserModel userModel, String type);
 }

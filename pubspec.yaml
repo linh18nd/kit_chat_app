@@ -31,6 +31,8 @@ dependencies:
   http: ^0.13.6
   agora_rtc_engine: ^6.2.0
   permission_handler: ^10.2.0
+  url_launcher: ^6.1.11
+  vibration: ^1.7.7
   # firebase
   firebase_core: ^2.13.0
   firebase_auth: ^4.6.1

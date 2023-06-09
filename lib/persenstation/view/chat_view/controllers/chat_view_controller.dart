@@ -9,7 +9,9 @@ import 'package:kit_chat_app/domain/models/message_model.dart';
 import 'package:kit_chat_app/domain/models/user_model.dart';
 import 'package:kit_chat_app/domain/usecases/chat_model_usecase.dart';
 import 'package:kit_chat_app/persenstation/app_controller/app_controller.dart';
+import 'package:kit_chat_app/persenstation/service/agora.dart';
 import 'package:kit_chat_app/persenstation/view/chat_view/view/widgets/image_preview_page.dart';
+import 'package:kit_chat_app/route/app_route.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 
 class ChatController extends GetxController with AppController {
@@ -109,5 +111,15 @@ class ChatController extends GetxController with AppController {
 
   void openImage(String url) {
     Get.to(() => ImagePreviewPage(imageUrl: url));
+  }
+
+  void call() {
+    AgoraService.join('', 5);
+    _chatModelUsecase.sendNotification(conversationId, friend!, user!, 'call');
+    Get.toNamed(AppPath.call, arguments: {
+      'friend': friend,
+      'user': user,
+      'token': conversationId,
+    });
   }
 }

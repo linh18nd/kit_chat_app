@@ -59,6 +59,8 @@ class LocalNotificationService {
     var initialize = _flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: _onReceiveNotification,
+      onDidReceiveBackgroundNotificationResponse:
+          _onDidReceiveNotificationResponse,
     );
     await initialize;
   }
@@ -111,7 +113,40 @@ class LocalNotificationService {
     debugPrint("-------payload: $payload-------");
   }
 
-  static void _onReceiveNotification(NotificationResponse details) {
+  static void _onDidReceiveNotificationResponse(
+      NotificationResponse details) async {
+    final message = jsonDecode(details.payload!);
+    if (Get.currentRoute == AppPath.chat) {
+      return;
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final user = UserModel.fromJson(
+        jsonDecode(message['user']),
+      );
+      final friend = UserModel.fromJson(
+        jsonDecode(message['friend']),
+      );
+      final conversationId = message['conversationId'];
+      if (message['type'] == 'message') {
+        Get.toNamed(AppPath.chat, arguments: {
+          'conversationId': conversationId,
+          'user': user,
+          'friend': friend,
+        });
+      } else {
+        Get.toNamed(AppPath.call, arguments: {
+          'token': conversationId,
+          'user': friend,
+          'friend': user,
+          'isListener': true,
+        });
+      }
+      _flutterLocalNotificationsPlugin.cancel(details.id!);
+    });
+  }
+
+  static void _onReceiveNotification(NotificationResponse details) async {
     final payload = details.payload;
     final result = jsonDecode(payload!);
     final user = UserModel.fromJson(
@@ -121,10 +156,20 @@ class LocalNotificationService {
       jsonDecode(result['friend']),
     );
     final conversationId = result['conversationId'];
-    Get.toNamed(AppPath.chat, arguments: {
-      'conversationId': conversationId,
-      'user': user,
-      'friend': friend,
-    });
+    if (result['type'] == 'message') {
+      Get.toNamed(AppPath.chat, arguments: {
+        'conversationId': conversationId,
+        'user': user,
+        'friend': friend,
+      });
+    } else {
+      Get.toNamed(AppPath.call, arguments: {
+        'token': conversationId,
+        'user': friend,
+        'friend': user,
+        'isListener': true,
+      });
+    }
+    cancelScheduleNotification(details.id!);
   }
 }

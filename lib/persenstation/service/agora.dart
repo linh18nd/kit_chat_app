@@ -31,7 +31,7 @@ class AgoraService {
     );
   }
 
-  static void join(String channelId, int userId) async {
+  static Future<void> join(String channelId, int userId) async {
     await _agoraEngine.startPreview();
     ChannelMediaOptions options = const ChannelMediaOptions(
       clientRoleType: ClientRoleType.clientRoleBroadcaster,
@@ -40,11 +40,14 @@ class AgoraService {
 
     await _agoraEngine.joinChannel(
       token:
-          '007eJxTYBC5ty5r6kXuuVNbX9zdWx77gme36Rfbe9O/Lqpm23OlcaK9AoNlmqWZpUVyamJymqGJZZphUqKleVKKkWWqRZJ5skWKafT3+pSGQEYG4SstLIwMEAjiszCkpObmMzAAADznIrU=',
-      channelId: channelId,
+          '007eJxTYOg2OHt3Z9mUbRrcZyL+1zIfMLmv+Miz/8S25zH3ONq/m89XYLBMszSztEhOTUxOMzSxTDNMSrQ0T0oxsky1SDJPtkgxbW9sTGkIZGTYu/0MIyMDBIL4rAwpqbn5RgwMAC9oIsQ=',
+      channelId: 'demo2',
       options: options,
       uid: userId,
     );
+
+    _agoraEngine.adjustPlaybackSignalVolume(400);
+    log('-----------------------------join channel: $channelId');
   }
 
   static Future<void> leaveChannel() async {

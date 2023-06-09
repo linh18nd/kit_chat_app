@@ -16,4 +16,10 @@ class ChatModelUsecase {
     return _chatModelRepository.sendMessage(
         message, conversationsId, friend, sender);
   }
+
+  Future<void> sendNotification(String conversationsId, UserModel friend,
+      UserModel userModel, String type) {
+    return _chatModelRepository.sendNotification(
+        conversationsId, friend, userModel, type);
+  }
 }

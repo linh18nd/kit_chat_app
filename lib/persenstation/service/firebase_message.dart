@@ -1,7 +1,11 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:get/get.dart';
+import 'package:kit_chat_app/domain/models/user_model.dart';
 import 'package:kit_chat_app/persenstation/service/local_notification.dart';
 import 'package:http/http.dart' as http;
+import 'package:kit_chat_app/route/app_route.dart';
 import 'package:uuid/uuid.dart';
 
 class FirebaseMessagingService {
@@ -22,16 +26,35 @@ class FirebaseMessagingService {
     FirebaseMessaging.onMessage.listen(
       (RemoteMessage message) {
         final notification = message.notification;
-
+        log('onBackgroundMessage: ${message.messageType}');
         if (notification != null) {
           final title = notification.title ?? '';
           final content = notification.body ?? '';
-
-          LocalNotificationService.showNotification(
-            title: title,
-            content: content,
-            notiId: const Uuid().v1().hashCode,
-          );
+          if (message.data['type'] == 'message') {
+            LocalNotificationService.showNotification(
+              title: title,
+              content: content,
+              notiId: const Uuid().v1().hashCode,
+              payload: jsonEncode(message.data),
+            );
+          } else if (message.data['type'] == 'call') {
+            final result = message.data;
+            final user = UserModel.fromJson(
+              jsonDecode(result['user']),
+            );
+            final friend = UserModel.fromJson(
+              jsonDecode(result['friend']),
+            );
+            final conversationId = result['conversationId'];
+            if (result['type'] == 'call') {
+              Get.toNamed(AppPath.call, arguments: {
+                'token': conversationId,
+                'user': friend,
+                'friend': user,
+                'isListener': true,
+              });
+            }
+          }
         }
       },
     );
@@ -75,6 +98,7 @@ class FirebaseMessagingService {
     required String receiverToken,
     required String title,
     required String body,
+    required String type,
     required Map<String, dynamic> payload,
   }) async {
     try {
@@ -87,6 +111,7 @@ class FirebaseMessagingService {
         },
         body: jsonEncode(
           <String, dynamic>{
+            'messageType': type,
             'notification': <String, dynamic>{'body': body, 'title': title},
             'priority': 'high',
             'data': payload,

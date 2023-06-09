@@ -16,16 +16,20 @@ class CallPage extends GetView<CallController> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Đang gọi cho ${controller.friend?.username ?? ''}',
+              controller.isListener.value
+                  ? 'Cuộc gọi từ ${controller.friend?.username}'
+                  : 'Đang gọi cho ${controller.friend?.username}',
               style: const TextStyle(fontSize: 20),
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                controller.joinChannel();
-              },
-              child: const Text('Nghe'),
-            ),
+            controller.isListener.value
+                ? ElevatedButton(
+                    onPressed: () {
+                      controller.joinChannel();
+                    },
+                    child: const Text('Nghe'),
+                  )
+                : const SizedBox(),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {

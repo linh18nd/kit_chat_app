@@ -18,10 +18,7 @@ class ChatPage extends GetView<ChatController> {
         actions: [
           IconButton(
             onPressed: () {
-              Get.toNamed(AppPath.call, arguments: {
-                'friend': controller.friend,
-                'token': controller.conversationId,
-              });
+              controller.call();
             },
             icon: const Icon(Icons.call),
           ),

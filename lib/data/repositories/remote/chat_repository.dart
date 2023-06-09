@@ -48,10 +48,30 @@ class ChatModelRepository implements ChatRepository {
       receiverToken: friend.messagingToken!,
       title: userModel.username,
       body: content,
+      type: 'message',
       payload: {
         'conversationId': conversationsId,
         'user': userModel.toJson(),
         'friend': friend.toJson(),
+        'type': "message"
+      },
+    );
+  }
+
+  @override
+  Future<void> sendNotification(String conversationsId, UserModel friend,
+      UserModel userModel, String type) async {
+    await _firebaseMessaging.sendNotification(
+      body: 'Bạn nhận được một cuộc gọi',
+      title: 'Cuộc gọi đến',
+      receiverToken: friend.messagingToken!,
+      type: type,
+      payload: {
+        'isListener': 'true',
+        'conversationId': conversationsId,
+        'user': userModel.toJson(),
+        'friend': friend.toJson(),
+        'type': type
       },
     );
   }
